@@ -1,0 +1,53 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    container_name: load-balancer
+    depends_on:
+      - express
+    environment:
+      - NGINX_SERVER_NAME=localhost
+      - EXPRESS_HOST_1=cadt-backend-assignment-express-1
+      - EXPRESS_HOST_2=cadt-backend-assignment-express-2
+      - EXPRESS_HOST_3=cadt-backend-assignment-express-3
+      # - EXPRESS_HOST_4=express-cadt-2-express-4
+      # - EXPRESS_HOST_5=express-cadt-2-express-5
+      - EXPRESS_PORT=3000
+      - NGINX_MAX_BODY=100M
+    ports:
+      - 3000:3000
+  express:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src
+      - ./index.js:/app/index.js
+      - .env:/app/.env
+      - ./uploads:/app/uploads
+      - ./index.html:/app/index.html
+    scale: 3
+    depends_on:
+      - mongodb
+      - redis
+  mongodb:
+    build:
+      context: .
+      dockerfile: Dockerfile-mongodb
+    restart: unless-stopped
+    container_name:  cadtmongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/cadtdb
+  redis:
+    image: redis:7.4.1
+    container_name: cadtredis
+    ports:
+      - 6379:6379
+volumes:
+  mongodbdata:

@@ -1,3 +1,4 @@
+const moment = require("moment-timezone");
 class createMeetingDTO {
   title;
   management;
@@ -10,7 +11,7 @@ class createMeetingDTO {
     this.title = meetingDetail.title;
     this.management = meetingDetail.management;
     this.room = meetingDetail.room;
-    this.date = meetingDetail.date;
+    this.date = moment(meetingDetail.date).format("YYYY-MM-DD");
     this.startTime = meetingDetail.startTime;
     this.endTime = meetingDetail.endTime;
     this.status = meetingDetail.status;
@@ -28,7 +29,7 @@ class updateMeetingDTO {
     this.title = meetingDetail.title;
     this.management = meetingDetail.management;
     this.room = meetingDetail.room;
-    this.date = meetingDetail.date;
+    this.date = moment(meetingDetail.date).format("YYYY-MM-DD");
     this.startTime = meetingDetail.startTime;
     this.endTime = meetingDetail.endTime;
     this.status = meetingDetail.status;

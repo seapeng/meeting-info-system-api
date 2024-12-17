@@ -71,18 +71,22 @@ const generate = async () => {
   const roles = [
     {
       name: "administrator",
+      isHidden: false,
       orderNumber: 2,
     },
     {
       name: "editor",
+      isHidden: false,
       orderNumber: 3,
     },
     {
       name: "auditor",
+      isHidden: false,
       orderNumber: 4,
     },
     {
       name: "user",
+      isHidden: false,
       orderNumber: 5,
     },
   ];
@@ -111,8 +115,8 @@ const generate = async () => {
 
   const statuses = [
     { name: "មិនទាន់ប្រជុំ", orderNumber: 1 },
-    { name: "មិនទាន់ប្រជុំ", orderNumber: 2 },
-    { name: "មិនទាន់ប្រជុំ", orderNumber: 3 },
+    { name: "កំពុងប្រជុំ", orderNumber: 2 },
+    { name: "ប្រជុំបានបញ្ចប់", orderNumber: 3 },
   ];
   const times = [
     "06:00",
@@ -150,9 +154,7 @@ const generate = async () => {
   await floors.map(async (floor, index) => {
     await new floorModel({ name: floor.name, orderNumber: index + 1 }).save();
   });
-  await roles.map(async (role) => {
-    await new roleModel(role).save();
-  });
+  
   await titles.map(async (title) => {
     await new titleModel(title).save();
   });
@@ -163,6 +165,9 @@ const generate = async () => {
     async (time, index) =>
       await new timeModel({ name: time, orderNumber: index + 1 }).save()
   );
+  await roles.map(async (role) => {
+    await new roleModel(role).save();
+  });
   const role = await new roleModel(superRole)
     .save()
     .then((obj) => obj.toJSON());

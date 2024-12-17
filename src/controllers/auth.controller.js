@@ -43,7 +43,7 @@ class authController {
         role: user.role.name,
       };
       const accessToken = await Jwt.sign(payload, process.env.APP_SECRET, {
-        expiresIn: "7d",
+        expiresIn: "14d",
       });
       const refreshToken = await Jwt.sign(payload, process.env.APP_SECRET, {
         expiresIn: "30d",

@@ -29,6 +29,14 @@ const zodValidation = (schema) => (req, res, next) => {
 const titleValidation = async (req, res, next) => {
   try {
     const { title } = req.body;
+    if (title.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "title",
+          message: "Invalid title",
+        },
+      ]);
+    }
     const existingTitle = await titleModel.findById(title);
     if (!existingTitle) {
       return errorResponse(res, 400, [
@@ -46,6 +54,14 @@ const titleValidation = async (req, res, next) => {
 const genderValidation = async (req, res, next) => {
   try {
     const { gender } = req.body;
+    if (gender.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "gender",
+          message: "Invalid gender",
+        },
+      ]);
+    }
     const existingRecord = await genderModel.findById(gender);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -63,6 +79,14 @@ const genderValidation = async (req, res, next) => {
 const roleValidation = async (req, res, next) => {
   try {
     const { role } = req.body;
+    if (role.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "role",
+          message: "Invalid role",
+        },
+      ]);
+    }
     const existingRecord = await roleModel.findById(role);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -80,6 +104,14 @@ const roleValidation = async (req, res, next) => {
 const floorValidation = async (req, res, next) => {
   try {
     const { floor } = req.body;
+    if (floor.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "floor",
+          message: "Invalid floor",
+        },
+      ]);
+    }
     const existingRecord = await floorModel.findById(floor);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -97,6 +129,14 @@ const floorValidation = async (req, res, next) => {
 const statusValidation = async (req, res, next) => {
   try {
     const { status } = req.body;
+    if (status.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "status",
+          message: "Invalid status",
+        },
+      ]);
+    }
     const existingRecord = await statusModel.findById(status);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -114,6 +154,14 @@ const statusValidation = async (req, res, next) => {
 const timeValidation = async (req, res, next) => {
   try {
     const { time } = req.body;
+    if (time.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "time",
+          message: "Invalid time",
+        },
+      ]);
+    }
     const existingRecord = await timeModel.findById(time);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -131,6 +179,14 @@ const timeValidation = async (req, res, next) => {
 const startTimeValidation = async (req, res, next) => {
   try {
     const { startTime } = req.body;
+    if (startTime.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "startTime",
+          message: "Invalid start time",
+        },
+      ]);
+    }
     const existingRecord = await timeModel.findById(startTime);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -148,6 +204,14 @@ const startTimeValidation = async (req, res, next) => {
 const endTimeValidation = async (req, res, next) => {
   try {
     const { endTime } = req.body;
+    if (endTime.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "endTime",
+          message: "Invalid end time",
+        },
+      ]);
+    }
     const existingRecord = await timeModel.findById(endTime);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -165,6 +229,14 @@ const endTimeValidation = async (req, res, next) => {
 const managementValidation = async (req, res, next) => {
   try {
     const { management } = req.body;
+    if (management.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "management",
+          message: "Invalid management",
+        },
+      ]);
+    }
     const existingRecord = await managementModel.findById(management);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -182,6 +254,14 @@ const managementValidation = async (req, res, next) => {
 const roomValidation = async (req, res, next) => {
   try {
     const { room } = req.body;
+    if (room.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "room",
+          message: "Invalid room",
+        },
+      ]);
+    }
     const existingRecord = await roomModel.findById(room);
     if (!existingRecord) {
       return errorResponse(res, 400, [
@@ -199,6 +279,14 @@ const roomValidation = async (req, res, next) => {
 const buildingValidation = async (req, res, next) => {
   try {
     const { building } = req.body;
+    if (building.length != 24) {
+      return errorResponse(res, 400, [
+        {
+          field: "building",
+          message: "Invalid building",
+        },
+      ]);
+    }
     const existingRecord = await buildingModel.findById(building);
     if (!existingRecord) {
       return errorResponse(res, 400, [

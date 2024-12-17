@@ -1,4 +1,5 @@
 require("dotenv").config();
+const moment = require("moment");
 const express = require("express");
 const compression = require("compression");
 const cors = require("cors");
@@ -18,12 +19,15 @@ const meetingRouter = require("./src/routers/meeting.router");
 const setupSwagger = require("./src/swagger");
 const mongoConnection = require("./src/db/mongo.db");
 const rateLimit = require("express-rate-limit");
-const { successResponse } = require("./src/utils/responses");
+const { successResponse, errorResponse } = require("./src/utils/responses");
+const initRouter = require("./src/routers/init.router");
 const port = process.env.APP_PORT;
 const host = process.env.APP_HOST;
+process.env.TZ = "Asia/Phnom_Penh";
 const app = express();
 app.use(compression());
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+// app.use(express.urlencoded({ limit: '50mb'}));
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(helmet());
 
@@ -31,6 +35,7 @@ mongoConnection().catch((error) => console.error(error));
 
 passport.use(jwtStrategy);
 app.use("/v1/auth", authRouter);
+app.use("/generatedata", initRouter);
 
 const limiter = rateLimit({
   windwMs: 1 * 60 * 1000,
@@ -40,12 +45,13 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.get("/", (req, res, next) => {
+app.get("/health-check", (req, res, next) => {
   try {
     const healthCheck = {
       uptime: process.uptime(),
-      timestamp : Date.now()
-    }
+      localtime: new Date().toString(),
+      timestamp: moment(new Date()).format("DD-MM-YYYY hh:mm:ss"),
+    };
     return successResponse(res, healthCheck);
   } catch (error) {
     next(error);
@@ -92,9 +98,15 @@ app.use(
   passport.authenticate("jwt", { session: false }),
   userRouter
 );
-
-app.use(errorHandler);
 setupSwagger(app);
+app.use("/*", (req, res, next) => {
+  try {
+    return errorResponse(res, 404, "Page not found");
+  } catch (error) {
+    next(error);
+  }
+});
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`server is running on http://${host}:${port}`);

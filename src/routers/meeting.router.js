@@ -38,6 +38,6 @@ meetingRouter.put(
   meetingController.update
 );
 meetingRouter.delete("/:id", meetingController.delete);
-meetingRouter.get("/histories", meetingController.findAllHistories);
-meetingRouter.post("/histories", meetingController.storeHistory);
+// meetingRouter.get("/histories", meetingController.findAllHistories);
+// meetingRouter.post("/histories", meetingController.storeHistory);
 module.exports = meetingRouter;
