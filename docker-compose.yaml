@@ -13,10 +13,10 @@ services:
       - EXPRESS_HOST_3=cadt-backend-assignment-express-3
       # - EXPRESS_HOST_4=express-cadt-2-express-4
       # - EXPRESS_HOST_5=express-cadt-2-express-5
-      - EXPRESS_PORT=3000
+      - EXPRESS_PORT=4000
       - NGINX_MAX_BODY=100M
     ports:
-      - 3000:3000
+      - 4000:4000
   express:
     build:
       context: .

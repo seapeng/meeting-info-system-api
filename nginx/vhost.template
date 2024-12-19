@@ -13,7 +13,7 @@ http {
         server ${EXPRESS_HOST_3}:${EXPRESS_PORT};
     }
     server {
-        listen 3000;
+        listen 4000;
 		server_name ${NGINX_SERVER_NAME};
 		root /app/public;
 		client_max_body_size ${NGINX_MAX_BODY};

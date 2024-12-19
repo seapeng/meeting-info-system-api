@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { createServer } = require('node:http');
 const moment = require("moment");
 const express = require("express");
 const compression = require("compression");
@@ -21,6 +22,7 @@ const mongoConnection = require("./src/db/mongo.db");
 const rateLimit = require("express-rate-limit");
 const { successResponse, errorResponse } = require("./src/utils/responses");
 const initRouter = require("./src/routers/init.router");
+const publicDataRouter = require("./src/routers/public.data.router");
 const port = process.env.APP_PORT;
 const host = process.env.APP_HOST;
 process.env.TZ = "Asia/Phnom_Penh";
@@ -28,14 +30,27 @@ const app = express();
 app.use(compression());
 app.use(express.json({ limit: "50mb" }));
 // app.use(express.urlencoded({ limit: '50mb'}));
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors());
 app.use(helmet());
+
+const server = createServer(app, (req, res) => {
+  const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'OPTIONS, POST, GET,PUT,PATCH,DELETE',
+      //'Access-Control-Max-Age': 2592000, // 30 days
+      /** add other headers as per requirement */
+  }
+
+  res.writeHead(405, headers)
+  res.end(`${req.method} is not allowed for the request.`)
+});
 
 mongoConnection().catch((error) => console.error(error));
 
 passport.use(jwtStrategy);
 app.use("/v1/auth", authRouter);
 app.use("/generatedata", initRouter);
+app.use("/v1/public", publicDataRouter);
 
 const limiter = rateLimit({
   windwMs: 1 * 60 * 1000,
@@ -108,7 +123,7 @@ app.use("/*", (req, res, next) => {
 });
 app.use(errorHandler);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server is running on http://${host}:${port}`);
   console.log(`APIs-Doc is running on http://${host}:${port}/v1/api-docs`);
 });

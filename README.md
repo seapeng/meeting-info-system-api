@@ -11,15 +11,15 @@ docker compose up -d
 ```
 ## Open Project On Browser
 ```sh
-http://localhost:3000
+http://localhost:4000
 ```
 
 ## Browser url to generate sample data
 ```sh
-http://localhost:3000/generatedata
+http://localhost:4000/generatedata
 ```
 
 ## Browser url to API Docs
 ```sh
-http://localhost:3000/v1/api-docs
+http://localhost:4000/v1/api-docs
 ```
