@@ -12,6 +12,7 @@ class authController {
       const user = await userModel
         .findOne({
           username: loggingDetail.username,
+          isEnable: true,
         })
         .select("+password +accessToken +refreshToken")
         .populate({ path: "role" });
@@ -58,6 +59,25 @@ class authController {
         accessToken,
         refreshToken,
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+  checkAuth = async (req, res, next) => {
+    try {
+      const { authorization } = req.headers;
+      if (!authorization) {
+        return errorResponse(res, 401, "unauthorized");
+      }
+      if (!authorization.startsWith("Bearer")) {
+        return errorResponse(res, 401, "unauthorized");
+      }
+      const token = authorization.split(" ")[1];
+      const payload = await Jwt.verify(token, process.env.APP_SECRET);
+      if (!payload) {
+        return errorResponse(res, 401, "unauthorized");
+      }
+      return successResponse(res, null, "authorized");
     } catch (error) {
       next(error);
     }

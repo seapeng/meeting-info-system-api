@@ -16,11 +16,12 @@ class roomController {
         .find()
         .select("-__v -createdAt -updatedAt")
         .populate([
-          { path: "building", select: ["-_id", "name"] },
-          { path: "floor", select: ["-_id", "name"] },
+          { path: "building", select: ["_id", "name"] },
+          { path: "floor", select: ["_id", "name"] },
         ])
         .sort({ orderNumber: 1 });
       await redisClient.set(roomsRedis, JSON.stringify(rooms));
+      await redisClient.expire(roomsRedis, 20);
       return successResponse(res, rooms);
     } catch (error) {
       next(error);
@@ -73,8 +74,8 @@ class roomController {
         .findById(id)
         .select("-__v -createdAt -updatedAt")
         .populate([
-          { path: "building", select: ["-_id", "name"] },
-          { path: "floor", select: ["-_id", "name"] },
+          { path: "building", select: ["_id", "name"] },
+          { path: "floor", select: ["_id", "name"] },
         ]);
       if (!room) {
         return errorResponse(res, 404, [

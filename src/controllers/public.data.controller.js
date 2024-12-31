@@ -4,12 +4,12 @@ const meetingModel = require("../models/meeting.model");
 class PublicDataController {
   meetingToday = async (req, res, next) => {
     try {
+      const { pages, date } = req.query;
+      let page = 1;
+      if (Number(pages) > 1) {
+        page = pages;
+      }
       const allMeeting = await meetingModel.aggregate([
-        {
-          $match: {
-            date: { $lte: new Date() },
-          },
-        },
         {
           $lookup: {
             from: "managements",
@@ -149,10 +149,14 @@ class PublicDataController {
         {
           $sort: {
             date: -1,
+            "startTime.orderNumber": 1,
           },
         },
         {
-          $limit: 30,
+          $skip: page - 1 < 1 ? 0 : (page - 1) * 10,
+        },
+        {
+          $limit: 10,
         },
         {
           $project: {
@@ -178,9 +182,11 @@ class PublicDataController {
             "room.floor.createdAt": 0,
             "room.floor.updatedAt": 0,
             "room.floor.__v": 0,
+            "startTime.orderNumber": 0,
             "startTime.createdAt": 0,
             "startTime.updatedAt": 0,
             "startTime.__v": 0,
+            "endTime.orderNumber": 0,
             "endTime.createdAt": 0,
             "endTime.updatedAt": 0,
             "endTime.__v": 0,
@@ -195,7 +201,8 @@ class PublicDataController {
         },
       ]);
       let meetings = allMeeting.map((meeting) => {
-        const localtime = moment(meeting.date).format("YYYY-MM-DD");
+        const localtime = moment(meeting.date)
+          .format("YYYY-MM-DD");
         return {
           ...meeting,
           date: localtime,

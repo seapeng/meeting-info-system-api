@@ -28,7 +28,7 @@ class updateUserDTO {
   orderNumber;
   constructor(userDetail) {
     this.position = userDetail.position;
-    this.roleId = userDetail.role;
+    this.role = userDetail.role;
     this.isEnable = userDetail.isEnable;
     this.orderNumber = userDetail.orderNumber;
   }
@@ -36,8 +36,12 @@ class updateUserDTO {
 
 class chanagePasswordDTO {
   password;
+  newPassword
+  confirmPassword;
   constructor(userDetail) {
     this.password = userDetail.password;
+    this.newPassword = userDetail.newPassword;
+    this.confirmPassword = userDetail.confirmPassword;
   }
 }
 

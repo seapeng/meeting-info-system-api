@@ -31,7 +31,7 @@ app.use(compression());
 app.use(express.json({ limit: "50mb" }));
 // app.use(express.urlencoded({ limit: '50mb'}));
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 
 const server = createServer(app, (req, res) => {
   const headers = {
@@ -54,7 +54,7 @@ app.use("/v1/public", publicDataRouter);
 
 const limiter = rateLimit({
   windwMs: 1 * 60 * 1000,
-  max: 60,
+  max: 120,
   message: "Too many requests from this IP, please try again later.",
 });
 

@@ -66,7 +66,7 @@ class userController {
       const user = await userModel
         .findById(id)
         .select("-__v -createdAt -updatedAt")
-        .populate({ path: "role", select: ["-_id", "name"] });
+        .populate({ path: "role", select: ["_id", "name"] });
       if (!user) {
         return errorResponse(res, 404, [
           {

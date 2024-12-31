@@ -74,8 +74,8 @@ class managementController {
         .findById(id)
         .select("-__v -createdAt -createdAt")
         .populate([
-          { path: "title", select: ["-_id", "name"] },
-          { path: "gender", select: ["-_id", "name"] },
+          { path: "title", select: ["_id", "name"] },
+          { path: "gender", select: ["_id", "name"] },
         ]);
       if (!management) {
         return errorResponse(res, 404, [

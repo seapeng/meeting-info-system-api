@@ -45,4 +45,12 @@ module.exports = {
     group: "Meetings",
     description: "Delete meetings",
   },
+  5: {
+    group: "Meetings",
+    description: "Get all meetings history",
+    query: {
+      pages: Joi.number().optional().default(1),
+      date: Joi.string().optional(),
+    },
+  },
 };

@@ -9,7 +9,7 @@ const options = {
     name: "Apache 2.0",
     url: "https://www.apache.org/licenses/LICENSE-2.0.html",
   },
-  host: process.env.API_HOST,
+  host: "meetingapi.daovitou.net",
   basePath: "/",
   schemes: ["http", "https"],
   securityDefinitions: {
